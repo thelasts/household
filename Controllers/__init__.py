@@ -8,4 +8,6 @@ from Controllers.UserOptionsControllers.user_add_controller import (get_wait_use
                                                                     get_wait_user_default_payment_message_controller,
                                                                     write_new_user_id_controller,
                                                                     write_new_user_name_controller,
+                                                                    add_new_user_main_cancel_controller,
+                                                                    add_new_user_cancel_controller,
 write_new_user_default_payment_controller, add_new_user_controller)
