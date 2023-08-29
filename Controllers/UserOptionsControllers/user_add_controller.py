@@ -7,7 +7,24 @@ from Controllers.UserOptionsControllers.help_functions import delete_message, se
     delete_menu_message, incorrect_user_argument, write_user_argument
 from Models import User
 from Utils.FSM.UserOptions import UserOptionsFSM
-from Utils.Keyboards.Inline.UserOptions import (get_user_options_menu)
+from Utils.Keyboards.Inline.UserOptions import (get_user_options_menu, get_user_add_menu)
+
+
+async def add_new_user_main_cancel_controller(call: CallbackQuery, state: FSMContext):
+    message_text = 'User options'
+    await state.update_data(user_id=None, user_name=None, default_payment=None)
+    await state.set_state(UserOptionsFSM.state_user_options_menu_open)
+    await call.answer()
+    await call.message.answer(message_text, reply_markup=get_user_options_menu())
+    asyncio.create_task(delete_message(call.message))
+
+
+async def add_new_user_cancel_controller(call: CallbackQuery, state: FSMContext):
+    message_text = 'Add user menu'
+    await state.set_state(UserOptionsFSM.state_open_add_user_menu)
+    await call.answer()
+    await call.message.answer(message_text, reply_markup=get_user_add_menu())
+    asyncio.create_task(delete_message(call.message))
 
 
 async def get_wait_user_id_message_controller(call: CallbackQuery, state: FSMContext):
@@ -123,13 +140,14 @@ async def add_new_user_controller(call: CallbackQuery, state: FSMContext):
 
     try:
         User.create(id=user_id, name=user_name, default_payment=default_payment)
-        message_answer = await call.message.answer(f'<i>You added new user.</i>\r\n ID: {user_id}\r\n Name: {user_name}\r\n '
-                                                   f'Default payment: {default_payment}')
+        message_answer = await call.message.answer(
+            f'<i>You added new user.</i>\r\n ID: {user_id}\r\n Name: {user_name}\r\n '
+            f'Default payment: {default_payment}')
         asyncio.create_task(delete_message(message_answer, 10))
     except Exception:
         error_message = "An error occurred user was not added"
         message_answer = await call.message.answer(error_message)
-        asyncio.create_task(delete_message(message_answer,10))
+        asyncio.create_task(delete_message(message_answer, 10))
     finally:
         await state.set_state(UserOptionsFSM.state_user_options_menu_open)
         await call.message.answer('User options', reply_markup=get_user_options_menu())
