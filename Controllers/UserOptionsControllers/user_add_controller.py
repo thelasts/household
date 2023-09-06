@@ -4,45 +4,40 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, CallbackQuery
 
 from Controllers.UserOptionsControllers.help_functions import delete_message, send_submenu_to_callback, \
-    delete_menu_message, incorrect_user_argument, write_user_argument
+    delete_menu_message, incorrect_user_argument, write_user_argument, back_to_user_options_menu, \
+    send_cancel_menu_to_callback
 from Models.User import User
 from Utils.FSM.UserOptions.UserOptionsFSM import UserOptionsFSM
 from Utils.Keyboards.Inline.UserOptions.user_options_keyboards import get_user_options_menu, get_user_add_menu
 
 
 async def add_new_user_main_cancel_controller(call: CallbackQuery, state: FSMContext):
-    message_text = 'User options'
-    await state.update_data(user_id=None, user_name=None, default_payment=None)
-    await state.set_state(UserOptionsFSM.state_user_options_menu_open)
-    await call.answer()
-    await call.message.answer(message_text, reply_markup=get_user_options_menu())
-    asyncio.create_task(delete_message(call.message))
+    await back_to_user_options_menu(call, state)
 
 
 async def add_new_user_cancel_controller(call: CallbackQuery, state: FSMContext):
     message_text = 'Add user menu'
+    keyboard = get_user_add_menu()
     await state.set_state(UserOptionsFSM.state_open_add_user_menu)
-    await call.answer()
-    await call.message.answer(message_text, reply_markup=get_user_add_menu())
-    asyncio.create_task(delete_message(call.message))
+    await send_submenu_to_callback(message_text, keyboard, state, call)
 
 
 async def get_wait_user_id_message_controller(call: CallbackQuery, state: FSMContext):
     message_text = 'Please provide the ID of the new user or their contact'
     await state.set_state(UserOptionsFSM.state_add_new_user_id)
-    asyncio.create_task(send_submenu_to_callback(message_text, state, call))
+    await send_cancel_menu_to_callback(message_text, state, call)
 
 
 async def get_wait_user_name_message_controller(call: CallbackQuery, state: FSMContext):
     message_text = 'Please provide the name of the new user'
     await state.set_state(UserOptionsFSM.state_add_new_user_name)
-    asyncio.create_task(send_submenu_to_callback(message_text, state, call))
+    await send_cancel_menu_to_callback(message_text, state, call)
 
 
 async def get_wait_user_default_payment_message_controller(call: CallbackQuery, state: FSMContext):
     message_text = 'Please provide the default payments of the new user'
     await state.set_state(UserOptionsFSM.state_add_new_user_default_payment)
-    asyncio.create_task(send_submenu_to_callback(message_text, state, call))
+    await send_cancel_menu_to_callback(message_text, state, call)
 
 
 async def write_new_user_id_controller(message: Message, state: FSMContext):
