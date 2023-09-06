@@ -3,13 +3,12 @@ from aiogram import Router
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, CallbackQuery
 
-from Controllers import (get_wait_user_id_message_controller, get_wait_user_name_message_controller,
-                         get_wait_user_default_payment_message_controller, write_new_user_id_controller,
-                         write_new_user_name_controller, write_new_user_default_payment_controller,
-                         add_new_user_controller)
+
 from Controllers.UserOptionsControllers.user_add_controller import add_new_user_main_cancel_controller, \
-    add_new_user_cancel_controller
-from Utils.FSM.UserOptions import UserOptionsFSM
+    add_new_user_cancel_controller, get_wait_user_id_message_controller, get_wait_user_name_message_controller, \
+    get_wait_user_default_payment_message_controller, add_new_user_controller, write_new_user_id_controller, \
+    write_new_user_name_controller, write_new_user_default_payment_controller
+from Utils.FSM.UserOptions.UserOptionsFSM import UserOptionsFSM
 
 user_add_router = Router(name='user_add_router')
 

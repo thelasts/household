@@ -1,7 +1,7 @@
 
 from peewee import *
 
-from Models import BaseModel
+from Models.BaseModel import BaseModel
 
 
 class User(BaseModel):

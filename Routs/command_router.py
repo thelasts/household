@@ -2,7 +2,7 @@ from aiogram import Router
 from aiogram.filters import CommandStart, Command
 from aiogram.types import Message
 
-from Controllers import start_controller, help_controller, stop_controller
+from Controllers.command_controller import start_controller, help_controller, stop_controller
 
 command_router = Router(name="commands")
 

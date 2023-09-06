@@ -1,8 +1,8 @@
 from aiogram.types import InlineKeyboardMarkup
 from aiogram.utils.keyboard import InlineKeyboardBuilder
-from Utils.Keyboards.Inline.UserOptions import (USER_OPTIONS_MENU_BUTTONS, USER_ADD_MENU_BUTTONS, USER_CANCEL_MENU,
-                                                USER_CHANGE_MENU,
-                                                BUTTONS_IN_FIRST_LINE)
+
+from Utils.Keyboards.Inline.UserOptions.const import BUTTONS_IN_FIRST_LINE, USER_OPTIONS_MENU_BUTTONS, \
+    USER_ADD_MENU_BUTTONS, USER_CANCEL_MENU, USER_CHANGE_MENU
 
 
 def add_new_buttons(buttons: dict, keyboard_builder: InlineKeyboardBuilder):

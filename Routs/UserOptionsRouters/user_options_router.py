@@ -4,9 +4,9 @@ from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, CallbackQuery
 
-from Controllers import (open_user_option_menu_controller, close_user_option_menu_controller,
-                         open_user_add_menu_controller)
-from Utils.FSM.UserOptions import UserOptionsFSM
+from Controllers.UserOptionsControllers.user_options_controller import open_user_option_menu_controller, \
+    close_user_option_menu_controller, open_user_add_menu_controller
+from Utils.FSM.UserOptions.UserOptionsFSM import UserOptionsFSM
 
 user_operations_router = Router(name="user_operations")
 

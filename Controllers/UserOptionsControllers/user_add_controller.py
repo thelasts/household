@@ -5,9 +5,9 @@ from aiogram.types import Message, CallbackQuery
 
 from Controllers.UserOptionsControllers.help_functions import delete_message, send_submenu_to_callback, \
     delete_menu_message, incorrect_user_argument, write_user_argument
-from Models import User
-from Utils.FSM.UserOptions import UserOptionsFSM
-from Utils.Keyboards.Inline.UserOptions import (get_user_options_menu, get_user_add_menu)
+from Models.User import User
+from Utils.FSM.UserOptions.UserOptionsFSM import UserOptionsFSM
+from Utils.Keyboards.Inline.UserOptions.user_options_keyboards import get_user_options_menu, get_user_add_menu
 
 
 async def add_new_user_main_cancel_controller(call: CallbackQuery, state: FSMContext):

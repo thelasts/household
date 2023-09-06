@@ -3,9 +3,8 @@ import asyncio
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, CallbackQuery
 
-from Utils.FSM.UserOptions import UserOptionsFSM
-from Utils.Keyboards.Inline.UserOptions import (get_user_add_menu,
-                                                get_user_cancel_menu)
+from Utils.FSM.UserOptions.UserOptionsFSM import UserOptionsFSM
+from Utils.Keyboards.Inline.UserOptions.user_options_keyboards import get_user_add_menu, get_user_cancel_menu
 
 
 async def delete_message(message, time: int = 0):
@@ -37,7 +36,7 @@ async def incorrect_user_argument(message: Message, state: FSMContext, error_mes
     await state.update_data(old_message=menu_message)
 
 
-async def send_submenu_to_callback(message_text: str, state: FSMContext ,call: CallbackQuery):
+async def send_submenu_to_callback(message_text: str, state: FSMContext, call: CallbackQuery):
     await call.answer()
     await call.message.delete()
     menu_message = await call.message.answer(message_text, reply_markup=get_user_cancel_menu())
