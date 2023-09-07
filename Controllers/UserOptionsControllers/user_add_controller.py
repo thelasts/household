@@ -11,32 +11,32 @@ from Utils.FSM.UserOptions.UserOptionsFSM import UserOptionsFSM
 from Utils.Keyboards.Inline.UserOptions.user_options_keyboards import get_user_options_menu, get_user_add_menu
 
 
-async def add_new_user_main_cancel_controller(call: CallbackQuery, state: FSMContext) -> Message:
+async def main_cancel_controller(call: CallbackQuery, state: FSMContext) -> Message:
     await call.answer()
     await state.clear()
     message = call.message
     return message
 
 
-async def get_wait_user_id_message_controller(call: CallbackQuery, state: FSMContext):
+async def request_user_id_controller(call: CallbackQuery, state: FSMContext):
     message_text = 'Please provide the ID of the new user or their contact'
     await state.set_state(UserOptionsFSM.state_add_new_user_id)
     await send_cancel_menu_to_callback(message_text, state, call)
 
 
-async def get_wait_user_name_message_controller(call: CallbackQuery, state: FSMContext):
+async def request_user_name_controller(call: CallbackQuery, state: FSMContext):
     message_text = 'Please provide the name of the new user'
     await state.set_state(UserOptionsFSM.state_add_new_user_name)
     await send_cancel_menu_to_callback(message_text, state, call)
 
 
-async def get_wait_user_default_payment_message_controller(call: CallbackQuery, state: FSMContext):
+async def request_default_payment_controller(call: CallbackQuery, state: FSMContext):
     message_text = 'Please provide the default payments of the new user'
     await state.set_state(UserOptionsFSM.state_add_new_user_default_payment)
     await send_cancel_menu_to_callback(message_text, state, call)
 
 
-async def write_new_user_id_controller(message: Message, state: FSMContext):
+async def add_user_id_controller(message: Message, state: FSMContext):
     error_message = 'Please provide the ID of the new user or their contact'
 
     # delete old message
@@ -56,7 +56,7 @@ async def write_new_user_id_controller(message: Message, state: FSMContext):
     asyncio.create_task(write_new_user_argument(message, add_menu_message, state))
 
 
-async def write_new_user_name_controller(message: Message, state: FSMContext):
+async def add_user_name_controller(message: Message, state: FSMContext):
     user_name = message.text
     error_message = 'Invalid name format.Write username'
 
@@ -72,7 +72,7 @@ async def write_new_user_name_controller(message: Message, state: FSMContext):
     asyncio.create_task(write_new_user_argument(message, add_menu_message, state))
 
 
-async def write_new_user_default_payment_controller(message: Message, state: FSMContext):
+async def add_user_default_payment_controller(message: Message, state: FSMContext):
     user_default_payment = None
     error_message = 'Invalid default payment format. Write number'
 
