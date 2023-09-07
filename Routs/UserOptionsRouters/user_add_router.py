@@ -3,11 +3,16 @@ from aiogram import Router
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, CallbackQuery
 
-
-from Controllers.UserOptionsControllers.user_add_controller import add_new_user_main_cancel_controller, \
-    add_new_user_cancel_controller, get_wait_user_id_message_controller, get_wait_user_name_message_controller, \
-    get_wait_user_default_payment_message_controller, add_new_user_controller, write_new_user_id_controller, \
-    write_new_user_name_controller, write_new_user_default_payment_controller
+from Controllers.UserOptionsControllers.user_add_controller import (
+    get_wait_user_id_message_controller,
+    get_wait_user_name_message_controller,
+    get_wait_user_default_payment_message_controller,
+    add_new_user_controller,
+    write_new_user_id_controller,
+    write_new_user_name_controller,
+    write_new_user_default_payment_controller, add_new_user_main_cancel_controller)
+from Controllers.UserOptionsControllers.user_options_controller import open_user_add_menu_controller, \
+    open_user_option_menu_controller
 from Utils.FSM.UserOptions.UserOptionsFSM import UserOptionsFSM
 
 user_add_router = Router(name='user_add_router')
@@ -30,27 +35,29 @@ async def wait_user_default_payment(call: CallbackQuery, state: FSMContext):
 
 @user_add_router.callback_query(UserOptionsFSM.state_open_add_user_menu, F.data == 'DONE')
 async def add_new_user(call: CallbackQuery, state: FSMContext):
-    await add_new_user_controller(call, state)
+    message = await add_new_user_controller(call, state)
+    await open_user_option_menu_controller(message, state)
 
 
 @user_add_router.callback_query(UserOptionsFSM.state_open_add_user_menu, F.data == 'CANCEL')
 async def add_new_user(call: CallbackQuery, state: FSMContext):
-    await add_new_user_main_cancel_controller(call, state)
+    message = await add_new_user_main_cancel_controller(call, state)
+    await open_user_option_menu_controller(message, state)
 
 
 @user_add_router.callback_query(UserOptionsFSM.state_add_new_user_id, F.data == 'CANCEL')
 async def add_new_user(call: CallbackQuery, state: FSMContext):
-    await add_new_user_cancel_controller(call, state)
+    await open_user_add_menu_controller(call, state)
 
 
 @user_add_router.callback_query(UserOptionsFSM.state_add_new_user_name, F.data == 'CANCEL')
 async def add_new_user(call: CallbackQuery, state: FSMContext):
-    await add_new_user_cancel_controller(call, state)
+    await open_user_add_menu_controller(call, state)
 
 
 @user_add_router.callback_query(UserOptionsFSM.state_add_new_user_default_payment, F.data == 'CANCEL')
 async def add_new_user(call: CallbackQuery, state: FSMContext):
-    await add_new_user_cancel_controller(call, state)
+    await open_user_add_menu_controller(call, state)
 
 
 @user_add_router.message(UserOptionsFSM.state_add_new_user_id)
