@@ -54,6 +54,11 @@ async def send_cancel_menu_to_callback(message_text: str, state: FSMContext,
     await state.update_data(old_message=menu_message)
 
 
+async def request_message(message_text: str, call: CallbackQuery, state: FSMContext):
+    await state.set_state(UserOptionsFSM.state_change_name)
+    await send_cancel_menu_to_callback(message_text, state, call)
+
+
 async def get_user_id(error_message: str, message: Message) -> tuple[int | None, str]:
     user_id = None
 
