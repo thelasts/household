@@ -4,8 +4,8 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, CallbackQuery
 
 from Controllers.UserOptionsControllers.help_functions import delete_message, send_submenu_to_callback, \
-    delete_menu_message, incorrect_user_argument, write_user_argument, back_to_user_options_menu, \
-    send_cancel_menu_to_callback
+    delete_menu_message, incorrect_user_argument, write_new_user_argument, back_to_user_options_menu, \
+    send_cancel_menu_to_callback, get_user_id
 from Models.User import User
 from Utils.FSM.UserOptions.UserOptionsFSM import UserOptionsFSM
 from Utils.Keyboards.Inline.UserOptions.user_options_keyboards import get_user_options_menu, get_user_add_menu
@@ -41,25 +41,13 @@ async def get_wait_user_default_payment_message_controller(call: CallbackQuery, 
 
 
 async def write_new_user_id_controller(message: Message, state: FSMContext):
-    user_id = None
     error_message = 'Please provide the ID of the new user or their contact'
 
     # delete old message
     asyncio.create_task(delete_menu_message(state))
 
     # check message is contact or id number
-    if message.contact is not None:
-        try:
-            user_id = int(message.contact.user_id)
-        except (ValueError, TypeError):
-            error_message = 'You sent a contact that is not in the telegram. ' + error_message
-            user_id = None
-    else:
-        try:
-            user_id = int(message.text)
-        except (ValueError, TypeError):
-            user_id = None
-            error_message = 'You entered invalid id. ' + error_message
+    user_id, error_message = get_user_id(error_message, message)
 
     #  if message is not correct return error message
     if user_id is None:
@@ -69,7 +57,7 @@ async def write_new_user_id_controller(message: Message, state: FSMContext):
     # it is all correct
     await state.update_data(user_id=user_id)
     add_menu_message = await message.answer(f'ID was recorded: {user_id}')
-    asyncio.create_task(write_user_argument(message, add_menu_message, state))
+    asyncio.create_task(write_new_user_argument(message, add_menu_message, state))
 
 
 async def write_new_user_name_controller(message: Message, state: FSMContext):
@@ -85,7 +73,7 @@ async def write_new_user_name_controller(message: Message, state: FSMContext):
     # it is all correct
     await state.update_data(user_name=user_name)
     add_menu_message = await message.answer(f'Name was recorded: {user_name}')
-    asyncio.create_task(write_user_argument(message, add_menu_message, state))
+    asyncio.create_task(write_new_user_argument(message, add_menu_message, state))
 
 
 async def write_new_user_default_payment_controller(message: Message, state: FSMContext):
@@ -103,7 +91,7 @@ async def write_new_user_default_payment_controller(message: Message, state: FSM
     # it is all correct
     await state.update_data(default_payment=user_default_payment)
     add_menu_message = await message.answer(f'Default payment was recorded: {user_default_payment}')
-    asyncio.create_task(write_user_argument(message, add_menu_message, state))
+    asyncio.create_task(write_new_user_argument(message, add_menu_message, state))
 
 
 async def add_new_user_controller(call: CallbackQuery, state: FSMContext):

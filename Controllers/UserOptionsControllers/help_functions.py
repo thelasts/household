@@ -24,11 +24,11 @@ async def delete_menu_message(state: FSMContext):
         await state.update_data(old_message=None)
 
 
-async def write_user_argument(message: Message, add_menu_message: Message, state: FSMContext):
+async def write_new_user_argument(message: Message, info_message: Message, state: FSMContext):
     await message.answer('Add user menu', reply_markup=get_user_add_menu())
     await state.set_state(UserOptionsFSM.state_open_add_user_menu)
     asyncio.create_task(delete_message(message))
-    asyncio.create_task(delete_message(add_menu_message, 10))
+    asyncio.create_task(delete_message(info_message, 10))
 
 
 async def incorrect_user_argument(message: Message, state: FSMContext, error_message: str):
@@ -60,3 +60,23 @@ async def back_to_user_options_menu(call: CallbackQuery, state: FSMContext):
     await state.set_state(UserOptionsFSM.state_user_options_menu_open)
     await state.update_data(user_id=None, user_name=None, default_payment=None)
     await send_submenu_to_callback(message_text, keyboard, state, call)
+
+
+async def get_user_id(error_message: str, message: Message) -> tuple[int | None, str]:
+    user_id = None
+
+    # check message is contact or id number
+    if message.contact is not None:
+        try:
+            user_id = int(message.contact.user_id)
+        except (ValueError, TypeError):
+            error_message = 'You sent a contact that is not in the telegram. ' + error_message
+            user_id = None
+    else:
+        try:
+            user_id = int(message.text)
+        except (ValueError, TypeError):
+            user_id = None
+            error_message = 'You entered invalid id. ' + error_message
+
+    return user_id, error_message
