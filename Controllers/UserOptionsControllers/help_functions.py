@@ -54,14 +54,6 @@ async def send_cancel_menu_to_callback(message_text: str, state: FSMContext,
     await state.update_data(old_message=menu_message)
 
 
-async def back_to_user_options_menu(call: CallbackQuery, state: FSMContext):
-    message_text = 'User options'
-    keyboard = get_user_options_menu()
-    await state.set_state(UserOptionsFSM.state_user_options_menu_open)
-    await state.update_data(user_id=None, user_name=None, default_payment=None)
-    await send_submenu_to_callback(message_text, keyboard, state, call)
-
-
 async def get_user_id(error_message: str, message: Message) -> tuple[int | None, str]:
     user_id = None
 
@@ -78,5 +70,4 @@ async def get_user_id(error_message: str, message: Message) -> tuple[int | None,
         except (ValueError, TypeError):
             user_id = None
             error_message = 'You entered invalid id. ' + error_message
-
     return user_id, error_message
