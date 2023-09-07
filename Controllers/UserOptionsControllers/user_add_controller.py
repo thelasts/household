@@ -5,7 +5,7 @@ from aiogram.types import Message, CallbackQuery
 
 from Controllers.UserOptionsControllers.help_functions import delete_message, send_submenu_to_callback, \
     delete_menu_message, incorrect_user_argument, write_new_user_argument, \
-    send_cancel_menu_to_callback, get_user_id
+    send_cancel_menu_to_callback, get_user_id, request_message
 from Models.User import User
 from Utils.FSM.UserOptions.UserOptionsFSM import UserOptionsFSM
 from Utils.Keyboards.Inline.UserOptions.user_options_keyboards import get_user_options_menu, get_user_add_menu
@@ -20,20 +20,17 @@ async def main_cancel_controller(call: CallbackQuery, state: FSMContext) -> Mess
 
 async def request_user_id_controller(call: CallbackQuery, state: FSMContext):
     message_text = 'Please provide the ID of the new user or their contact'
-    await state.set_state(UserOptionsFSM.state_add_new_user_id)
-    await send_cancel_menu_to_callback(message_text, state, call)
+    await request_message(message_text, call, state)
 
 
 async def request_user_name_controller(call: CallbackQuery, state: FSMContext):
     message_text = 'Please provide the name of the new user'
-    await state.set_state(UserOptionsFSM.state_add_new_user_name)
-    await send_cancel_menu_to_callback(message_text, state, call)
+    await request_message(message_text, call, state)
 
 
 async def request_default_payment_controller(call: CallbackQuery, state: FSMContext):
     message_text = 'Please provide the default payments of the new user'
-    await state.set_state(UserOptionsFSM.state_add_new_user_default_payment)
-    await send_cancel_menu_to_callback(message_text, state, call)
+    await request_message(message_text, call, state)
 
 
 async def add_user_id_controller(message: Message, state: FSMContext):
