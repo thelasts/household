@@ -1,7 +1,7 @@
-from Models import BaseModel
 from peewee import *
 
-from Models import User
+from Models.BaseModel import BaseModel
+from Models.User import User
 
 
 class Debit(BaseModel):

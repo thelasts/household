@@ -1,6 +1,7 @@
 from aiogram.types import Message
 from Controllers.const import *
-from Models import db, MonthPayment
+from Models.BaseModel import db
+from Models.MonthPayment import MonthPayment
 
 STOP = False
 

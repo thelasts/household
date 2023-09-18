@@ -1,6 +1,7 @@
 from aiogram.types import Message
 
-from Models import db, MonthPayment
+from Models.BaseModel import db
+from Models.MonthPayment import MonthPayment
 
 
 def add_purchase(message: Message) -> str:

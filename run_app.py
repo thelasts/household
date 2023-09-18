@@ -2,16 +2,20 @@ import asyncio
 import logging
 from aiogram import Bot
 
-from Config import API_TOKEN
+from Config.config import API_TOKEN
+from Models.BaseModel import db
+from Models.Debit import Debit
+from Models.MonthPayment import MonthPayment
+from Models.User import User
 from dispatcher import return_dispatcher
-from Models import db, User, Debit, MonthPayment
+
 
 logging.basicConfig(level=logging.INFO)
 
 
 def configurate_database():
     db.connect()
-    db.create_tables([User, User, Debit, MonthPayment])
+    db.create_tables([User, Debit, MonthPayment])
 
 
 async def bot_start():

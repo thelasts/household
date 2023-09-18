@@ -2,7 +2,7 @@ USER_OPTIONS_MENU_BUTTONS = {
     'Add new user': 'ADD_USER',
     'Delete user': 'DEL_USER',
     'Change user': 'CHANGE_USER',
-    'Cancel': "CANCEL"
+    'Cancel': 'CANCEL'
 }
 
 USER_ADD_MENU_BUTTONS = {
@@ -10,7 +10,7 @@ USER_ADD_MENU_BUTTONS = {
     'Add name': 'ADD_NAME',
     'Add default payment': 'ADD_DEF_PAY',
     'Done': 'DONE',
-    'Cancel': "CANCEL"
+    'Cancel': 'CANCEL'
 }
 
 USER_CANCEL_MENU = {
@@ -19,7 +19,11 @@ USER_CANCEL_MENU = {
 
 USER_CHANGE_MENU = {
     'Change name': 'CHANGE_NAME',
-    'Change default payment': 'CHANGE_DEF_PAY'
+    'Change default payment': 'CHANGE_DEF_PAY',
+    'Done': 'DONE',
+    'Cancel': 'CANCEL'
 }
 
-BUTTONS_IN_FIRST_LINE = 3
+BUTTONS_IN_FIRST_LINE_OPTIONS_MENU = 3
+BUTTONS_IN_FIRST_LINE_ADD_MENU = 3
+BUTTONS_IN_FIRST_LINE_CHANGE_MENU = 2

@@ -16,6 +16,6 @@ class UserOptionsFSM(StatesGroup):
 
     # States for changes users
     state_open_change_menu = State()
-    state_wait_contact = State()
+    state_wait_contact_for_change = State()
     state_change_name = State()
     state_change_default_payment = State()
