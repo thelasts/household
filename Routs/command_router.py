@@ -1,8 +1,10 @@
-from aiogram import Router
+from aiogram import Router, F
 from aiogram.filters import CommandStart, Command
 from aiogram.types import Message
 
-from Controllers.command_controller import start_controller, help_controller, stop_controller
+from Controllers.command_controller import start_controller, help_controller, stop_controller, show_purchases_controller
+from Filters.valid_purchase import ValidPurchaseFilter
+from Services.month_payments import add_purchase
 
 command_router = Router(name="commands")
 
