@@ -19,18 +19,21 @@ async def main_cancel_controller(call: CallbackQuery, state: FSMContext) -> Mess
 
 
 async def request_user_id_controller(call: CallbackQuery, state: FSMContext):
+    new_state = UserOptionsFSM.state_add_new_user_id
     message_text = 'Please provide the ID of the new user or their contact'
-    await request_message(message_text, call, state)
+    await request_message(message_text, call, state, new_state)
 
 
 async def request_user_name_controller(call: CallbackQuery, state: FSMContext):
+    new_state = UserOptionsFSM.state_add_new_user_name
     message_text = 'Please provide the name of the new user'
-    await request_message(message_text, call, state)
+    await request_message(message_text, call, state, new_state)
 
 
 async def request_default_payment_controller(call: CallbackQuery, state: FSMContext):
+    new_state = UserOptionsFSM.state_add_new_user_default_payment
     message_text = 'Please provide the default payments of the new user'
-    await request_message(message_text, call, state)
+    await request_message(message_text, call, state, new_state)
 
 
 async def add_user_id_controller(message: Message, state: FSMContext):
